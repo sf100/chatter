@@ -1,0 +1,427 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+    margin: 0px;
+    font-family:  '微软雅黑','Helvetica Neue',sans-serif,SimHei;
+	padding:0px;
+	border:none;
+	box-sizing: border-box;
+}
+ul, li {
+	margin:0px;
+	padding:0px;
+	}
+div , input , a , span , i{
+	box-sizing: border-box;
+	text-decoration:none;
+	}
+.block{
+	display:block;
+	}
+.shu-line{
+	width:1px;
+	overflow:hidden;
+	float:left;
+	}
+.left{
+	float:left;
+	}
+.right{
+	float:right;
+	}
+/*菜单css*/
+.main-menu{
+	position:fixed;
+	width:80px;
+	left:0px;
+	top:0px;
+	bottom:0px;
+	background-color:#333;
+	float:left;
+	}
+.main-menu .avatar{
+	width:64px;
+	height:64px;
+	background-color:#FFF;
+	-moz-border-radius: 32px; 
+	-webkit-border-radius: 32px; 
+	border-radius: 32px;
+	z-index:20px;
+	position:absolute;
+	top:8px;
+	left:8px;
+	overflow:hidden;
+	}
+.main-menu .res-avatar{
+	top:5px;
+	position:absolute;
+	width:70px;
+	height:70px;
+	left:5px;
+	background-color:#666;
+	-moz-border-radius: 35px; 
+	-webkit-border-radius: 35px; 
+	border-radius: 35px;
+	z-index:10px;
+	}
+.main-menu .body-menu{
+	position:absolute;
+	width:100%;
+	top:90px;
+	}
+.body-menu .menu-a{
+	display:block;
+	width:100%;
+	height:70px;
+	text-decoration:none;
+	color:#FFF;
+	text-align:center;
+	line-height:70px;
+	letter-spacing:1px;
+	font-size:14px;
+	padding-top:10px;
+	cursor:pointer;
+	}
+.body-menu .menu-a:hover{
+	background-color:#666;
+	}
+.body-menu .menu-a span{
+	display:block;
+	height:30px;
+	line-height:30px;
+	}
+.menu-a .ico{
+    width:80px;
+	height:30px;
+	display:block;
+	}
+.menu-a .msg-ico{
+	background:url(images/msg-ico.png) no-repeat center  top;
+	}
+.menu-a .hualao-ico{
+	background:url(images/hualao-ico.png) no-repeat center  top;
+	}
+.menu-a .jishu-ico{
+	background:url(images/jishu-ico.png) no-repeat center  top;
+	}
+.menu-a .lvyou-ico{
+	background:url(images/lvyou-ico.png) no-repeat center  top;
+	}
+.menu-a .yundong-ico{
+	background:url(images/yundong-ico.png) no-repeat center  top;
+	}
+.menu-a .shishang-ico{
+	background:url(images/shishang-ico.png) no-repeat center  top;
+	}
+.menu-a .sheying-ico{
+	background:url(images/sheying.png) no-repeat center  top;
+	}
+	
+.menu-set{
+	position:absolute;
+	bottom:0px;
+	width:100%;
+	height:25px;
+	background-color:#13171c;
+	}
+.menu-set a{
+	width:39px;
+	float:left;
+	height:25px;
+	}
+.menu-set .set{
+	background:url(images/set.png) center center no-repeat;
+	}
+.menu-set .logout{
+	background:url(images/logout.png) center  center no-repeat;
+	}
+.menu-set .set-logout{
+	height:15px;
+	margin-top:5px;
+	background-color:#DDD;
+	}
+/*-----------------*/
+
+/*内容部分*/
+.wrapper{
+	float:right;
+	position:absolute;
+	left:80px;
+	right:0px;
+	bottom:0px;
+	top:0px;
+	background-color:#f7f6f2;
+	}
+.msg-center{
+	width:100%;
+	height:100%;
+	background-color:#f7f6f2;
+	position:absolute;
+	}
+.msg-center .msg-jilu{
+	width:220px;
+	height:100%;
+	float:left;
+	border-right:#DDD 1px solid;
+	}
+.msg-jilu .msg-jilu-h{
+	background-color:#FFF;
+	width:100%;
+	height:33px;
+	line-height:32px;
+	color:#0033ff;
+	border-bottom:#DDD 1px solid;
+    text-align:center;
+	}
+.msg-jilu .msg-jilu-c{
+	width:100%;
+	background-color:#DDD;
+	}
+.msg-jilu-c .msg-jilu-user{
+	height:50px;
+	line-height:50px;
+	text-indent:5px;
+	width:100%;
+	background-color:#fbfbfb;
+	margin-top:1px;
+	display:block;
+	cursor:pointer;
+	color:#555;
+	font-size:14px;
+	}
+.msg-jilu-c .msg-jilu-user:hover{
+	background-color:#bfe5ff;
+	}
+.msg-jilu-c .current-user{
+	background-color:#5cb1e8;
+	color:#FFF;
+	}
+.msg-jilu-c .current-user:hover{
+	background-color:#5cb1e8;
+	}
+.msg-jilu .user-tx{
+	width:40px;
+	height:40px;
+	border-radius:20px;
+	background-color:#36F;
+	float:left;
+	margin-top:5px;
+	margin-left:8px;
+	}
+.msg-jilu .load-all{
+	height:20px;
+	text-align:center;
+	background-color:#CCC;
+	line-height:20px;
+	font-size:12px;
+	color:#333;
+	display:block;
+	cursor:pointer;
+	}
+/*聊天*/
+.msg-center  .msg-lt{
+	float:left;
+	height:100%;
+	position:inherit;
+	left:220px;
+	right:0px;
+	}
+.msg-lt .msg-lt-h{
+	height:33px;
+	width:100%;
+	text-align:center;
+	line-height:33px;
+	color:#333;
+	border-bottom:#DDD 1px solid;
+	}
+.msg-lt .msg-win{
+	float:left;
+	position:inherit;
+	top:30px;
+	left:10px;
+	right:315px;
+	bottom:10px;
+	margin-top:10px;
+	background-color:#fff;
+	border:#EEE 1px solid;
+	border-radius: 5px;
+	}
+.msg-win .msg-msg{
+	width:100%;
+	position:inherit;
+	top:0px;
+	bottom:50px;
+	padding:10px;
+	overflow-y:auto;
+	font-size:12px;
+	}
+.msg-msg .jiantou-left{
+	width:5px;
+	height:30px;
+	float:left;
+	margin-left:5px;
+	background:url(images/jiantou-right.png) no-repeat left center;
+	}
+.msg-msg .jiantou-right{
+	width:5px;
+	height:30px;
+	float:right;
+	margin-right:5px;
+	background:url(images/jiantou-left.png) no-repeat right center;
+	}
+.msg-msg .msg-msg-other{
+	width:55%;
+	float:left;
+	margin-top:12px;
+	}
+.msg-msg .msg-time{
+	height:20px;
+	line-height:20px;
+	width:100%;
+	float:left;
+	text-align:center;
+	margin-top:15px;
+	}
+.msg-msg .msg-time span{
+	color:#FFF;
+	background-color:#CCC;
+	border-radius:3px;
+	width:100px;
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+	}
+.msg-msg .msg-msg-me{
+	float:right;
+	width:55%;
+	margin-top:12px;
+	min-width:385px;
+	}
+.msg-msg .msg-tx{
+	width:50px;
+	height:50px;
+	border-radius:25px;
+	background-color:#CCC;
+	}
+.msg-msg .msg-content{
+	background-color:#a0d3fe;
+	min-height:50px;
+	border-radius: 3px;
+	padding:5px;
+	max-width:320px;
+	}
+.msg-msg  .other-c{
+	background-color:#EEE;
+	}
+.msg-win .msg-send{
+	width:100%;
+	height:45px;
+	background-color:#DDD;
+	position:inherit;
+	bottom:0px;
+	font-size:12px;
+	padding:5px;
+	}
+.msg-send i{
+	width:40px;
+	height:35px;
+	display:block;
+	float:left;
+	}
+.biaoqing-ico{
+	background:url(images/biaoqing.png) center center no-repeat;
+	}
+.img-ico{
+	background:url(images/img-ico.png) center center no-repeat;
+	}
+.msg-send .send-button{
+    width:80px;
+	height: 35px;
+	float:right;
+	font-size:14px;
+	color: #FFF;
+	border: none;
+	font-family:inherit;
+	background-color:#0099FF;
+	position:absolute;
+	right:10px;
+	cursor:pointer;
+	}
+.msg-send .msg-send-parse {
+	float:left;
+	position:absolute;
+	left:85px;
+	right:90px;
+	height:35px;
+	overflow:hidden;
+	}
+.msg-send-parse input{
+	width:100%;
+	height:35px;
+	padding:5px;
+	font-size:14px;
+	border:#0099FF 1px solid;
+	outline: 0;
+	}
+.msg-lt .tz-dt{
+	float:right;
+    position:inherit;
+	right:5px;
+	top:30px;
+	bottom:10px;
+	width:300px;
+	margin-top:10px;
+	background-color:#FFF;
+	border:#EEE 1px solid;
+	border-radius: 5px;
+	font-size:12px;
+	overflow:hidden;
+	}
+.tz-dt .tz-dt-h{
+	height:25px;
+	line-height:25px;
+	border-bottom:#DDD 1px solid;
+	color:#666;
+	text-align:center;
+	}
+.tz-dt .tz-dt-fx{
+	width:100%;
+	height:160px;
+	color:#666;
+	padding:5px 10px 10px 10px;
+	}
+.tz-dt .tz-dt-fx p{
+	text-indent:20px;
+	font-size:12px;
+	line-height:20px;
+	max-height:120px;
+    overflow:hidden; 
+    text-overflow:ellipsis;
+	}
+.tz-dt .fx-a{
+	color:#0099cc;
+	float:right;
+	}
+.tz-dt .tz-cy{
+	display:block;
+	list-style:none;
+	padding:10px 0px 10px 5px;
+	overflow:auto;
+	position:absolute;
+	top:210px;
+	bottom:0px;
+	}
+.tz-cy a{
+	width:60px;
+	height:60px;
+	margin-left:5px;
+	margin-top:5px;
+	-moz-border-radius: 30px; 
+	-webkit-border-radius: 30px; 
+	border-radius: 35px;
+	float:left;
+	background-color:#06F;
+	border:#EEE  solid 1px;
+	}
+/*-----------------*/

@@ -1,0 +1,82 @@
+{{template "base/base.html" .}}
+{{template "base/base_common.html" .}}
+{{define "meta"}}
+     <title>话唠</title>
+{{end}}
+{{define "addJS"}}
+<script src="/static/js/msg-js.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	 $(".menu-a").click(function() {	
+	    url = $(this).attr("data-href");
+		$.ajax({
+		    url:url,
+			type:"POST",
+			dataType:"text",
+			async : true,
+			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+			success : function(data,textStatus, jqXHR) {
+				if (data.Success){
+					$("#wrapper").html(data.Data)
+				}else {
+					$("#wrapper").html("服务器出现异常，很抱歉给您带来不便！")
+				}
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("与服务器连接失败"+XMLHttpRequest.responseText);
+			}
+		
+		});
+	 })				   					   
+});
+</script>
+{{end}}
+
+{{define "body"}}
+<div class="main-menu">
+   <div class="res-avatar"></div>
+   <div class="avatar">
+     <img src="mytouxiang.png" width="100%"/>
+   </div>
+   <div class="body-menu">
+      <a class="menu-a" data-href="消息">
+        <i class="ico msg-ico"></i>
+        <span>消息中心</span>
+      </a>
+      <a class="menu-a" data-href="话唠录">
+        <i class="ico hualao-ico"></i>
+        <span>话唠录</span>
+      </a>
+      <a class="menu-a" data-href="技术唠">
+        <i class="ico jishu-ico"></i>
+        <span>技术唠</span>
+      </a>
+      <a class="menu-a" data-href="旅行者">
+        <i class="ico lvyou-ico"></i>
+        <span>旅游唠</span>
+      </a>
+      <a class="menu-a" data-href="运动场">
+        <i class="ico yundong-ico"></i>
+        <span>运动者</span>
+      </a>
+      <a class="menu-a" data-href="时尚街">
+        <i class="ico shishang-ico"></i>
+        <span>时尚街</span>
+      </a>
+      <a class="menu-a" data-href="摄影">
+        <i class="ico sheying-ico"></i>
+        <span>摄影唠</span>  
+      </a>
+   </div>
+   <div class="menu-set">
+     <a  href="#" class="block set">
+     </a>
+     <div class="shu-line set-logout"></div>
+     <a  href="#" class="block logout">
+     </a>
+   </div>
+</div>
+<div  id="wrapper" class="wrapper">
+</div>
+{{end}}

@@ -1,0 +1,96 @@
+<h3>Terry-Mao/gopush-cluster Web http protocol document</h3>
+Web internal interface document, used for push or delete messages so on
+
+<h3>Interface Summary</h3>
+(head). | Name | URL | Method |
+| "<a href="#Push Single Private Message">Push Single Private Message</a>":AdminPushPrivate | /1/admin/push/private     | POST |
+| "<a href="#Push Multiple Private Message">Push Multiple Private Message</a>":AdminPushMPrivate | /1/admin/push/mprivate     | POST |
+| "<a href="#Clean Message">Clean Message</a>":AdminMsgDel | /1/admin/msg/del | POST |
+
+<h3>Public ErrorCode</h3>
+
+(head). | ErrorCode | Description |
+| 0 | Success |
+| 65534 | Parameter Error |
+| 65535 | Internal Error |
+
+<h3>Basic Response Json</h3>
+<pre>
+{
+    "ret": 0,  //ErrorCode
+    "data": {….}//Data does not appear if data is null or ret != 0
+}
+</pre>
+
+<a name="Push Single Private Message"></a>
+
+<h3>Push Single Private Message</h3>
+ * Request Parameter
+
+(head). | Parameter | Type | Description |
+| key    | string | Subscription key |
+| expire | int64  | Message Expire Time, Unit:second|
+
+Note: Messages stored in body and must be json format, service will intactly return to client. Above just as URL Parameter.
+
+ * ErrorCode
+
+(head). | ErrorCode | Description |
+| 1001 | no node |
+<pre>
+{
+    "ret": 0
+}
+</pre>
+
+<a name="Push Multiple Private Message"></a>
+
+<h3>Push Multiple Private Message</h3>
+ * Request Parameter
+
+(head). | Parameter | Type | Description |
+| expire | int64  | Message Expire Time, Unit:second |
+push-message json structure like following:
+<pre>
+{
+    "m": "{\"test\":1}",
+    "k": "t1,t2,t3"
+}
+</pre>
+
+(head). | Parameter | Type | Description |
+| m | string  | push-message, must be json string |
+| k | string  | subcribe key, comma separated |
+
+ * ErrorCode
+
+(head). | ErrorCode | Description |
+| 1001 | no node |
+<pre>
+{
+    "data": {
+        "fk": [ //if push part of messages failed, then return into fk. in normal case, no fk.
+            "t1",
+            "t2"
+        ]
+    },
+    "ret": 0
+}
+</pre>
+
+<a name="Clean Message"></a>
+
+<h3>Clean Message</h3>
+Node: It will delete all of messages what belong to specify key and it will delete the Channel in the Comet-Service, for release memory
+ * Request Parameter
+
+(head). | Parameter | Type | Description |
+| key | string | Subscription Key |
+
+ * ErrorCode
+
+<pre>
+{
+    "ret": 0
+}
+</pre>

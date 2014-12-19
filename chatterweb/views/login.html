@@ -1,0 +1,89 @@
+{{template "base/base.html" .}}
+{{template "base/base_common.html" .}}
+{{define "meta"}}
+     <title>有信网页版</title>
+{{end}}
+
+{{define "addCSS"}}
+  <link href="/static/css/app/login.css" rel="stylesheet" />
+{{end}}
+
+{{define "addJS"}}
+<script type="text/javascript">
+$(document).ready(function() {
+	
+ 
+});
+function doLogin() {
+	var queryString = $('#loginForm').serializeArray(); 
+	var queryObj = {};
+	$.each(queryString ,function(index, value) {
+		queryObj[value["name"]] = value["value"];						 
+	});
+	
+	$.ajax({
+		url : "/login",
+		type : "POST",
+		data : queryObj,
+		dataType : 'json',
+		async : true,
+		contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+		success : function(data,textStatus, jqXHR) {
+			if (data.Success){
+				window.location.href = '/home';
+			}else {
+				alert("用户名或者密码错误")
+			}
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("与服务器连接失败"+XMLHttpRequest.responseText);
+		}
+	});
+}
+</script>
+{{end}}
+
+{{define "body"}}
+  <div class="head">
+     <div class="head-info">
+         <img src="/static/css/app/images/logo7.png" height="33" style="margin-top:10px" />
+     </div>
+     <div class="menu">
+        用户登录
+     </div>
+     <div class="head-btn">
+        <a class="btn login-btn" href="/login">登录</a>
+        <a class="btn register-btn" href="/register">注册</a>
+     </div>
+  </div>
+  <div class="b">
+     <img src="/static/images/login-b6.jpg" width="100%" />
+  </div>
+  <div class="box">
+      <div class="login-box">   
+          <div class="login-form-bak"></div>
+		  <form id="loginForm">
+          <div class="login-form">
+              <div class="login-param">
+                 <div class="parma-group">
+                     <input type="text" id="username"  onfocus="hiddenInfo()" class="username" name ="name" />
+                 </div>
+                 <div class="line"></div>
+                 <div class="parma-group">
+                     <input type="password" id="password" onfocus="hiddenInfo()" class="pwd" name="password" />
+                 </div>
+                 <div id="failInfo" class="login-info"></div>
+                 <button class="login_button" id="submit" onclick="doLogin()">
+                                    登 录
+                 </button>
+                 <div class="login_descript">
+                    <input type="checkbox" id="login_check">
+                    <label for="login_check">记住密码</label>
+                    <a style="float:right;"  class="warning_a">忘记密码？</a>			
+                </div>
+              </div>
+          </div>
+		  </form>
+      </div>
+  </div>
+{{end}}

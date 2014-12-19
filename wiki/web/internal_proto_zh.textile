@@ -1,0 +1,92 @@
+<h3>Terry-Mao/gopush-cluster Web http协议文档</h3>
+Web内部接口文档，用于推送、删除消息等
+
+<h3>接口汇总</h3>
+(head). | 接口名 | URL | 访问方式 |
+| "推送单个私信":AdminPushPrivate | /1/admin/push/private     | POST |
+| "推送多个私信":AdminPushMPrivate | /1/admin/push/mprivate     | POST |
+| "清理消息":AdminMsgDel | /1/admin/msg/del | POST |
+
+<h3>公共返回码</h3>
+
+(head). | 错误码 | 描述 |
+| 0 | 成功 |
+| 65534 | 参数错误 |
+| 65535 | 内部错误 |
+
+<h3>基本返回结构</h3>
+<pre>
+{
+    "ret": 0,  //错误码
+    "data": {….}//如果有数据返回，则有data，无数据返回就只有前面的ret
+}
+</pre>
+
+<h3>推送单个私信</h3>
+ * 请求参数
+
+(head). | 参数 | 类型 | 描述 |
+| key    | string | 订阅key |
+| expire | int64  | 消息过期时间，单位：秒(s)|
+注: 消息体存放到body中,且内容必须为json格式,以上参数为URL参数.
+
+ * 返回码
+
+(head). | 错误码 | 描述 |
+| 1001 | 没有找到comet节点 |
+<pre>
+{
+    "ret": 0
+}
+</pre>
+
+<h3>推送多个私信</h3>
+ * 请求参数
+
+(head). | 参数 | 类型 | 描述 |
+| expire | int64  | 消息过期时间，单位：秒(s)|
+推送消息json结构如下：
+<pre>
+{
+    "m": "{\"test\":1}",
+    "k": "t1,t2,t3"
+}
+</pre>
+
+(head). | 参数 | 类型 | 描述 |
+| m | string  | 要推送的消息体,必须为json字符串|
+| k | string  | 要推送的订阅key,用逗号分割|
+
+ * 返回码
+
+(head). | 错误码 | 描述 |
+| 1001 | 没有找到comet节点 |
+<pre>
+{
+    "data": {
+        "fk": [ //如果有部分key推送失败,则返回在这里,ret依然为0.fk字段结构为字符串数组。正常情况下不会有fk。
+            "t1",
+            "t2"
+        ]
+    },
+    "ret": 0
+}
+</pre>
+
+<h3>清理消息</h3>
+注：清理单个订阅(key)下的所有消息，并从Comet模块中清理掉Key对应的Channel
+ * 请求参数
+
+(head). | 参数 | 类型 | 描述 |
+| key | string | 客户端订阅时的key |
+
+<pre>
+{
+    "ret": 0
+}
+</pre>
+
+
+[AdminPushPrivate]#推送单个私信
+[AdminPushMPrivate]#推送多个私信
+[AdminMsgDel]#清理消息
