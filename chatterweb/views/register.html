@@ -10,29 +10,34 @@
 
 {{define "addJS"}}
 <script type="text/javascript">
-$(document).ready(function() {
-	   
- 
-});
-
 var checkValid = function() {
-	var username = $("#username").val()
-	if (username == null || username == ""){
-	      $("#failInfo").slideDown(300).text("用户名不能为空")
-	      return false;
+	
+	var username = $("#userName").val()
+	if (username == null || username == "" || username =="请输入您的昵称"){
+	    $("#failInfo").slideDown(300).text("用户名不能为空")
+	    return false;
 	}
 	var password =$("#password").val()
-	if (password == null || password == ""){
-	     $("#failInfo").slideDown(300).text("密码不能为空")
-	     return false;
+	if (password == null || password == "" || password=="创建您的密码"){
+	    $("#failInfo").slideDown(300).text("密码不能为空")
+	   return false;
 	}
+	return true
   }
-var hiddenInfo = function() {
+var initName = function(self) {
+	$(self).val("")
+	$(self).css("color","#333")
 	 $("#failInfo").slideUp(100)
  }
 	
-function doLogin() {
-	
+var initPwd = function(self) {
+	$(self).val("")
+	$(self).css("color","#333")
+	$(self).attr("type","password")
+	$("#failInfo").slideUp(100)
+}
+ var register = function(){
+
 	if  (!checkValid()) {
 		return
 	}
@@ -43,7 +48,7 @@ function doLogin() {
 	});
 	
 	$.ajax({
-		url : "/login",
+		url : "/doRegister",
 		type : "POST",
 		data : queryObj,
 		dataType : 'json',
@@ -58,7 +63,7 @@ function doLogin() {
 			}
 		},
 		error:function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("与服务器连接失败"+XMLHttpRequest.responseText);
+			//alert("与服务器连接失败"+XMLHttpRequest.responseText);
 		}
 	});
 }
@@ -72,7 +77,7 @@ function doLogin() {
          <img src="/static/css/app/images/logo7.png" height="33" style="margin-top:10px" />
      </div>
      <div class="menu">
-        用户登录
+       用户注册
      </div>
      <div class="head-btn">
         <a class="btn login-btn" href="/login">登录</a>
@@ -89,16 +94,16 @@ function doLogin() {
 	     <form id="loginForm">
 	              <div class="login-param">
 	                 <div class="parma-group">
-	                     <input type="text" id="username"  onfocus="hiddenInfo()" class="username" name ="name" />
+	                     <input type="text" id="userName"  style="color:#888;" onfocus="initName('#userName')" class="userName" name ="userName"  value="请输入您的昵称"/>
 	                 </div>
 	                 <div class="line"></div>
 	                 <div class="parma-group">
-	                     <input type="password" id="password" onfocus="hiddenInfo()" class="pwd" name="password" />
+	                     <input type="text" id="password" style="color:#888;"   onfocus="initPwd('#password')" class="pwd" name="password" value="创建您的密码"/>
 	                 </div>
 	              <div id="failInfo" class="login-info"></div>
 	      </form>
-                 <div class="login_button" onclick="doLogin()">
-                                    登 录
+                 <div class="login_button"  onclick="register()">
+                                    立即注册
                  </div>
                  <div class="login_descript">
                     <input type="checkbox" id="login_check">

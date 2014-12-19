@@ -177,6 +177,8 @@ a{
 	border: none;
 	font-family:inherit;
 	background-color:#0066FF;
+	text-align:center;
+	cursor:pointer;
 }
 .login_button:hover{
 	background-color:#0066CC;

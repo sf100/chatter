@@ -1,10 +1,12 @@
 package models
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/sf100/go-uuid/uuid"
 	"time"
 )
 
@@ -12,7 +14,6 @@ type User struct {
 	Id         string `orm:"column(id);pk"`
 	Name       string
 	NickName   string
-	NamePy     string
 	Avatar     string
 	Status     int
 	Password   string
@@ -22,10 +23,9 @@ type User struct {
 	Mobile     string
 	Email      string
 	Occupation string
-	URL        string
+	Url        string
 	Created    time.Time
 	Updated    time.Time
-	QunId      string
 }
 
 /**根据用户名获取用户*
@@ -44,6 +44,46 @@ func GetUserByName(name string) *User {
 	}
 	return nil
 
+}
+
+/*注册用户*/
+func Register(userName, password string) bool {
+
+	if ValidUserName(userName) {
+		o := orm.NewOrm()
+		user := &User{
+			Id:       uuid.New(),
+			Name:     userName,
+			Password: password,
+			Created:  time.Now().Local(),
+			Updated:  time.Now().Local(),
+		}
+
+		id, err := o.Insert(user)
+		fmt.Println("1-->>", id)
+		if err != nil {
+			beego.Error(err)
+			return false
+		}
+		fmt.Println(id)
+	}
+
+	return true
+}
+
+/*校验用户名是否可用*/
+func ValidUserName(userName string) bool {
+	o := orm.NewOrm()
+	var users []User
+	mun, err := o.Raw("select * from user where name = ? ", userName).QueryRows(&users)
+	if err != nil {
+		beego.Error(err)
+		return false
+	}
+	if mun > 0 {
+		return false
+	}
+	return true
 }
 
 //验证用户是否登陆

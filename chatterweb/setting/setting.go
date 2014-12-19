@@ -1,16 +1,16 @@
 package setting
 
 import (
-	"github.com/EPICPaaS/appmsgsrv/appweb/models"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/sf100/chatter/chatterweb/models"
 )
 
 func init() {
 	// 注册模型
 	orm.Debug = true
-	orm.RegisterModel(new(models.User), new(models.Tenant), new(models.Org))
+	orm.RegisterModel(new(models.User))
 	RegisterDB()
 	InitSession()
 	beego.InsertFilter("/index", beego.BeforeExec, models.IsUserLogin)
