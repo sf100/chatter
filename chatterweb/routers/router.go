@@ -11,6 +11,9 @@ func init() {
 	beego.Router("/register", &controllers.UserController{}, "get:Register")
 	beego.Router("/doRegister", &controllers.UserController{}, "post:DoRegister")
 	beego.Router("/logout", &controllers.UserController{}, "get:Logout")
-	beego.Router("/index", &controllers.IndexController{})
-
+	beego.Router("/home", &controllers.HomeController{})
+	beego.Router("/home/msgCenter", &controllers.MsgController{})
+	beego.Router("/hualao", &controllers.HuaLaoController{})
+	beego.Router("/hualao/friend", &controllers.HuaLaoController{}, "post:GetUserFriend")
+	beego.Router("/hualao/quns", &controllers.HuaLaoController{}, "post:GetUserQuns")
 }

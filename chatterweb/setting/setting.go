@@ -10,10 +10,10 @@ import (
 func init() {
 	// 注册模型
 	orm.Debug = true
-	orm.RegisterModel(new(models.User))
+	orm.RegisterModel(new(models.User), new(models.Qun))
 	RegisterDB()
 	InitSession()
-	beego.InsertFilter("/index", beego.BeforeExec, models.IsUserLogin)
+	beego.InsertFilter("/home", beego.BeforeExec, models.IsUserLogin)
 
 }
 
@@ -39,9 +39,9 @@ func RegisterDB() {
 func InitSession() {
 	beego.SessionOn = true
 	beego.SessionProvider = "memory"
-	beego.SessionGCMaxLifetime = 600 //60 seconds
-	beego.SessionName = "yxUser"
-	beego.SessionCookieLifeTime = 600 //60 seconds
+	beego.SessionGCMaxLifetime = 1800 //seconds
+	beego.SessionName = "chatterUser"
+	beego.SessionCookieLifeTime = 1800 //seconds
 	beego.SessionAutoSetCookie = true
 	beego.SessionSavePath = "/"
 }

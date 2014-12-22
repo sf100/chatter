@@ -1,0 +1,19 @@
+{{range .quns}}
+  <div class="user-about">
+     <div class="user-avatar">
+	   <img src="{{.Avatar}}" height="80"/>
+	 </div>
+     <div class="user-info">
+       <label>{{.Name}}</label>
+       <div class="user-qm">{{.Description}}</div>
+       <div  class="bt-box">
+          <a class="bt sendmsg" href="#">发送消息</a>
+          <a class="bt gz" href="#">- 取消关注</a>
+       </div>
+     </div>
+  </div>
+{{end}}
+<div class="create-shequ">
+ <div class="create-shequ-text"></div>
+ <div>创建群社区</div>
+</div>  

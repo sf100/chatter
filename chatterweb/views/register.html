@@ -55,7 +55,7 @@ var initPwd = function(self) {
 		async : true,
 		contentType : "application/x-www-form-urlencoded; charset=UTF-8",
 		success : function(data,textStatus, jqXHR) {
-			console.log(data)
+		
 			if (data.Success){
 				window.location.href = '/home';
 			}else {
@@ -63,7 +63,7 @@ var initPwd = function(self) {
 			}
 		},
 		error:function(XMLHttpRequest, textStatus, errorThrown) {
-			//alert("与服务器连接失败"+XMLHttpRequest.responseText);
+			$("#failInfo").slideDown(300).text("对不起，服务器繁忙，请稍后再试！")
 		}
 	});
 }
@@ -94,11 +94,11 @@ var initPwd = function(self) {
 	     <form id="loginForm">
 	              <div class="login-param">
 	                 <div class="parma-group">
-	                     <input type="text" id="userName"  style="color:#888;" onfocus="initName('#userName')" class="userName" name ="userName"  value="请输入您的昵称"/>
+	                     <input type="text" id="userName"  style="color:#999;" onfocus="initName('#userName')" class="userName" name ="userName"  value="请输入您的昵称"/>
 	                 </div>
 	                 <div class="line"></div>
 	                 <div class="parma-group">
-	                     <input type="text" id="password" style="color:#888;"   onfocus="initPwd('#password')" class="pwd" name="password" value="创建您的密码"/>
+	                     <input type="text" id="password" style="color:#999;"   onfocus="initPwd('#password')" class="pwd" name="password" value="创建您的密码"/>
 	                 </div>
 	              <div id="failInfo" class="login-info"></div>
 	      </form>

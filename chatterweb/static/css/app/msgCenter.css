@@ -1,0 +1,272 @@
+.msg-center{
+	width:100%;
+	height:100%;
+	background-color:#f7f6f2;
+	position:absolute;
+	}
+.msg-center .msg-jilu{
+	width:220px;
+	height:100%;
+	float:left;
+	border-right:#DDD 1px solid;
+	}
+.msg-jilu .msg-jilu-h{
+	background-color:#FFF;
+	width:100%;
+	height:33px;
+	line-height:32px;
+	color:#0033ff;
+	border-bottom:#DDD 1px solid;
+    text-align:center;
+	}
+.msg-jilu .msg-jilu-c{
+	width:100%;
+	background-color:#DDD;
+	}
+.msg-jilu-c .msg-jilu-user{
+	height:50px;
+	line-height:50px;
+	text-indent:5px;
+	width:100%;
+	background-color:#fbfbfb;
+	margin-top:1px;
+	display:block;
+	cursor:pointer;
+	color:#555;
+	font-size:14px;
+	}
+.msg-jilu-c .msg-jilu-user:hover{
+	background-color:#bfe5ff;
+	}
+.msg-jilu-c .current-user{
+	background-color:#5cb1e8;
+	color:#FFF;
+	}
+.msg-jilu-c .current-user:hover{
+	background-color:#5cb1e8;
+	}
+.msg-jilu .user-tx{
+	width:40px;
+	height:40px;
+	border-radius:20px;
+	background-color:#36F;
+	float:left;
+	margin-top:5px;
+	margin-left:8px;
+	}
+.msg-jilu .load-all{
+	height:20px;
+	text-align:center;
+	background-color:#CCC;
+	line-height:20px;
+	font-size:12px;
+	color:#333;
+	display:block;
+	cursor:pointer;
+	}
+/*聊天*/
+.msg-center  .msg-lt{
+	float:left;
+	height:100%;
+	position:inherit;
+	left:220px;
+	right:0px;
+	}
+.msg-lt .msg-lt-h{
+	height:33px;
+	width:100%;
+	text-align:center;
+	line-height:33px;
+	color:#333;
+	border-bottom:#DDD 1px solid;
+	}
+.msg-lt .msg-win{
+	float:left;
+	position:inherit;
+	top:30px;
+	left:10px;
+	right:315px;
+	bottom:10px;
+	margin-top:10px;
+	background-color:#fff;
+	border:#EEE 1px solid;
+	border-radius: 5px;
+	}
+.msg-win .msg-msg{
+	width:100%;
+	position:inherit;
+	top:0px;
+	bottom:50px;
+	padding:10px;
+	overflow-y:auto;
+	font-size:12px;
+	}
+.msg-msg .jiantou-left{
+	width:5px;
+	height:30px;
+	float:left;
+	margin-left:5px;
+	background:url(images/jiantou-right.png) no-repeat left center;
+	}
+.msg-msg .jiantou-right{
+	width:5px;
+	height:30px;
+	float:right;
+	margin-right:5px;
+	background:url(images/jiantou-left.png) no-repeat right center;
+	}
+.msg-msg .msg-msg-other{
+	width:55%;
+	float:left;
+	margin-top:12px;
+	}
+.msg-msg .msg-time{
+	height:20px;
+	line-height:20px;
+	width:100%;
+	float:left;
+	text-align:center;
+	margin-top:15px;
+	}
+.msg-msg .msg-time span{
+	color:#FFF;
+	background-color:#CCC;
+	border-radius:3px;
+	width:100px;
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+	}
+.msg-msg .msg-msg-me{
+	float:right;
+	width:55%;
+	margin-top:12px;
+	min-width:385px;
+	}
+.msg-msg .msg-tx{
+	width:50px;
+	height:50px;
+	border-radius:25px;
+	background-color:#CCC;
+	}
+.msg-msg .msg-content{
+	background-color:#a0d3fe;
+	min-height:50px;
+	border-radius: 3px;
+	padding:5px;
+	max-width:320px;
+	}
+.msg-msg  .other-c{
+	background-color:#EEE;
+	}
+.msg-win .msg-send{
+	width:100%;
+	height:45px;
+	background-color:#DDD;
+	position:inherit;
+	bottom:0px;
+	font-size:12px;
+	padding:5px;
+	}
+.msg-send i{
+	width:40px;
+	height:35px;
+	display:block;
+	float:left;
+	}
+.biaoqing-ico{
+	background:url(images/biaoqing.png) center center no-repeat;
+	}
+.img-ico{
+	background:url(images/img-ico.png) center center no-repeat;
+	}
+.msg-send .send-button{
+    width:80px;
+	height: 35px;
+	float:right;
+	font-size:14px;
+	color: #FFF;
+	border: none;
+	font-family:inherit;
+	background-color:#0099FF;
+	position:absolute;
+	right:10px;
+	cursor:pointer;
+	}
+.msg-send .msg-send-parse {
+	float:left;
+	position:absolute;
+	left:85px;
+	right:90px;
+	height:35px;
+	overflow:hidden;
+	}
+.msg-send-parse input{
+	width:100%;
+	height:35px;
+	padding:5px;
+	font-size:14px;
+	border:#0099FF 1px solid;
+	outline: 0;
+	}
+.msg-lt .tz-dt{
+	float:right;
+    position:inherit;
+	right:5px;
+	top:30px;
+	bottom:10px;
+	width:300px;
+	margin-top:10px;
+	background-color:#FFF;
+	border:#EEE 1px solid;
+	border-radius: 5px;
+	font-size:12px;
+	overflow:hidden;
+	}
+.tz-dt .tz-dt-h{
+	height:25px;
+	line-height:25px;
+	border-bottom:#DDD 1px solid;
+	color:#666;
+	text-align:center;
+	}
+.tz-dt .tz-dt-fx{
+	width:100%;
+	height:160px;
+	color:#666;
+	padding:5px 10px 10px 10px;
+	}
+.tz-dt .tz-dt-fx p{
+	text-indent:20px;
+	font-size:12px;
+	line-height:20px;
+	max-height:120px;
+    overflow:hidden; 
+    text-overflow:ellipsis;
+	}
+.tz-dt .fx-a{
+	color:#0099cc;
+	float:right;
+	}
+.tz-dt .tz-cy{
+	display:block;
+	list-style:none;
+	padding:10px 0px 10px 5px;
+	overflow:auto;
+	position:absolute;
+	top:210px;
+	bottom:0px;
+	}
+.tz-cy a{
+	width:60px;
+	height:60px;
+	margin-left:5px;
+	margin-top:5px;
+	-moz-border-radius: 30px; 
+	-webkit-border-radius: 30px; 
+	border-radius: 35px;
+	float:left;
+	background-color:#06F;
+	border:#EEE  solid 1px;
+	}
+/*-----------------*/

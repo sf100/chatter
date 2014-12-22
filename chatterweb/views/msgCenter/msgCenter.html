@@ -1,0 +1,141 @@
+<script type="text/javascript">
+var gg = function() {
+	 var channel = new GoPushCli({
+        host: '192.168.1.122',
+        port: 8090,
+        key: '{{.User.Id}}@user',
+        onOfflineMessage: function (data) {
+			addContent("[离线]来自["+decodeURIComponent(data.msg.fromDisplayName)+"]的消息："+decodeURIComponent(data.msg.content));
+        },
+        onOnlineMessage: function (data) {
+			var msg;
+			if (window.JSON && window.JSON.parse) {
+                 msg= JSON.parse(decodeURIComponent(data.msg));
+            }
+            msg =  eval('(' + decodeURIComponent(data.msg) + ')');
+            addContent("[在线]来自["+decodeURIComponent(msg.fromDisplayName)+"]的消息："+decodeURIComponent(msg.content));
+        },
+        onError: function (message) {
+            addContent(message);
+        },
+        onOpen: function (message) {
+            addContent('初始化完成');
+        },
+        onClose: function (message) {
+            addContent('连接断开');
+        }
+    });
+}
+</script>
+<div class="msg-center">
+  <div class="msg-jilu">
+    <div class="msg-jilu-h">
+       消息中心
+    </div>
+    <div class="msg-jilu-c">
+       <a  href="#" class="msg-jilu-user">
+         <div class="user-tx"></div>网名
+       </a>
+    </div>
+    <a class="load-all">加载全部</a>
+  </div>
+  <div class="msg-lt">
+      <div class="msg-lt-h">
+       快了骑行军
+      </div>
+      <div class="msg-win">
+        <div class="msg-msg">
+           <div class="msg-time">
+              <span>09-10 14:00</span>
+           </div>
+           <div class="msg-msg-other">
+              <div class="msg-tx left"></div>
+              <div class="jiantou-left"></div>
+              <div class="msg-content left other-c">
+                消息内容消息内容消息内容
+              </div>
+           </div>
+           <div class="msg-msg-me">
+              <div class="msg-tx right"></div>
+              <div class="jiantou-right"></div>
+              <div class="msg-content right">
+                消息内容消息内容消息内容消息消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消内容消息内容
+              </div>
+           </div>
+           <div class="msg-msg-other">
+              <div class="msg-tx left"></div>
+              <div class="jiantou-left"></div>
+              <div class="msg-content left other-c">
+                消息内容消息内容消息内容消息内容消息内容
+              </div>
+           </div>
+           <div class="msg-time">
+              <span> 09-10 14:00 </span>
+           </div>
+           <div class="msg-msg-me">
+              <div class="msg-tx right"></div>
+              <div class="jiantou-right"></div>
+              <div class="msg-content right">
+                消息内容消息内
+              </div>
+           </div>
+           <div class="msg-msg-me">
+              <div class="msg-tx right"></div>
+              <div class="jiantou-right"></div>
+              <div class="msg-content right">
+                消息内容消息内容消息内容消息内容消息内容
+              </div>
+           </div>
+           <div class="msg-msg-me">
+              <div class="msg-tx right"></div>
+              <div class="jiantou-right"></div>
+              <div class="msg-content right">
+                消息内容消息内容消息内容消息内容消息内容
+              </div>
+           </div>
+           <div class="msg-msg-me">
+              <div class="msg-tx right"></div>
+              <div class="jiantou-right"></div>
+              <div class="msg-content right">
+                消息内容消息内容消息内容消息内容消息内容
+              </div>
+           </div>
+        </div>
+        <div class="msg-send">
+            <i class="biaoqing-ico"></i>
+            <i class="img-ico"></i>
+            <div class="msg-send-parse">
+              <input type="text" name="sendMsg"/>
+            </div>
+            <button class="send-button" id="submit" onclick="login()">
+               发送
+            </button>
+        </div>
+      </div>
+      <div class="tz-dt">
+        <div class="tz-dt-h">
+          最新分享
+        </div>
+        <div  class="tz-dt-fx">
+          <p>周六骑行周六骑行周六骑行周六骑行周六骑行
+          周六骑行周六骑行周六骑行周六骑周六骑行周六骑行周六骑行周六骑
+          周六骑行周六骑行周六骑行周六骑
+          周六骑行周六骑行周六骑行周六骑
+          周六骑行周六骑行周六骑行周六骑周六骑行周六骑行周六骑行周六骑周六骑行周六骑行周六骑行周六骑周六骑行周六骑行周六骑行周六骑周六骑行周六骑行周六骑行周六骑周六骑行周六骑行周六骑行周六骑周六骑行周六骑行周六骑行周六骑周六骑行周六骑行周六骑行周六骑行周六骑行周六骑行
+          </p>
+          <a  href="#" class="fx-a">详情</a>
+        </div>
+        <div class="tz-dt-h">
+          社群成员
+        </div>
+        <ul class="tz-cy">
+            <a href="#" atl="2222"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+        </ul>
+      </div>
+  </div>
+</div>

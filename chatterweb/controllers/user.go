@@ -44,7 +44,7 @@ func (this *UserController) Register() {
 }
 
 func (this *UserController) DoRegister() {
-	this.TplNames = "register.html"
+
 	fmt.Println("------------------注册-----------------------")
 	//返回结果
 	ret := Result{
@@ -57,23 +57,27 @@ func (this *UserController) DoRegister() {
 		ret.Success = false
 		ret.Msg = "用户名和密码不能为空"
 		return
-	} else if len(pwd) <= 6 {
+	} else if len(pwd) < 6 {
 		ret.Success = false
 		ret.Msg = "密码必须6位以上"
-		return
+
 	}
-	fmt.Println("------------------2---------------")
+
 	if !models.Register(uname, pwd) {
 		ret.Success = false
 		ret.Msg = "服务器繁忙，请稍后在试！"
-		return
 	}
-	fmt.Println("---------------------------->", ret)
+
+	/*注册成功，添加会话session*/
+	if ret.Success {
+		this.SetSession("user", "222")
+	}
 	this.Data["json"] = ret
 	this.ServeJson()
 	this.StopRun()
 
 }
+
 func (this *UserController) Logout() {
 	//清除缓存
 	this.DelSession("user")

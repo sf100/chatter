@@ -16,16 +16,17 @@ $(document).ready(function() {
 });
 
 var checkValid = function() {
-	var username = $("#username").val()
+	var username = $("#userName").val()
 	if (username == null || username == ""){
-	      $("#failInfo").slideDown(300).text("用户名不能为空")
-	      return false;
+	    $("#failInfo").slideDown(300).text("用户名不能为空")
+	    return false;
 	}
 	var password =$("#password").val()
 	if (password == null || password == ""){
-	     $("#failInfo").slideDown(300).text("密码不能为空")
-	     return false;
+	    $("#failInfo").slideDown(300).text("密码不能为空")
+	   return false;
 	}
+	return true
   }
 var hiddenInfo = function() {
 	 $("#failInfo").slideUp(100)
@@ -50,7 +51,6 @@ function doLogin() {
 		async : true,
 		contentType : "application/x-www-form-urlencoded; charset=UTF-8",
 		success : function(data,textStatus, jqXHR) {
-			console.log(data)
 			if (data.Success){
 				window.location.href = '/home';
 			}else {
@@ -69,7 +69,7 @@ function doLogin() {
 {{define "body"}}
   <div class="head">
      <div class="head-info">
-         <img src="/static/css/app/images/logo7.png" height="33" style="margin-top:10px" />
+         <img src="/static/css/app/images/logo8.png" height="33" style="margin-top:10px" />
      </div>
      <div class="menu">
         用户登录
@@ -83,13 +83,13 @@ function doLogin() {
      <img src="/static/images/login-b6.jpg" width="100%" />
   </div>
   <div class="box">
-      <div class="login-box">   
+      <div class="login-box">  
           <div class="login-form-bak"></div>
           <div class="login-form">
 	     <form id="loginForm">
 	              <div class="login-param">
 	                 <div class="parma-group">
-	                     <input type="text" id="username"  onfocus="hiddenInfo()" class="username" name ="name" />
+	                     <input type="text" id="userName"  onfocus="hiddenInfo()" class="username" name ="userName" />
 	                 </div>
 	                 <div class="line"></div>
 	                 <div class="parma-group">

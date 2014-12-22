@@ -1,0 +1,54 @@
+<script type="text/javascript">
+	    $(".hualao-menu-a").click(function() {
+		    url = $(this).attr("data-href");
+			$(".hualao-menu-a").removeClass("select");
+			$(this).addClass("select");
+		  
+			$.ajax({
+			    url:url,
+				type:"POST",
+				dataType:"text",
+				async : true,
+				contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+				success : function(data,textStatus, jqXHR) {
+					$("#contactList").html(data)
+				},
+				error:function(XMLHttpRequest, textStatus, errorThrown) {
+					$("#contactList").html("对不起，服务器繁忙，请稍微再试！");
+				}
+		    }); 
+		}); 
+</script>
+<div class="contact-type">
+   <div class="contact-type-h">
+      话唠中心
+   </div>
+   <a class="hualao-menu-a select" data-href="/hualao/friend">我关注的话唠（{{.friendLen}}）</a>
+   <a class="hualao-menu-a" data-href="/hualao/quns">我关注的社区（{{.qunsLen}}）</a>
+</div>
+<div class="contact-list">
+   <div class="contact-list-h">
+      我的关注
+   </div>
+   <div id="contactList" class="contact-list-c">
+    {{range .Users}}
+     <div class="user-about">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <label>
+		   {{if .Remark_name}}
+		     {{.Remark_name}} 
+		   {{else}} 
+		     {{.NickName}}
+		   {{end}}
+		  </label>
+          <div class="user-qm">{{.Signature}}</div>
+          <div  class="bt-box">
+             <a class="bt sendmsg" href="#">发送消息</a>
+             <a class="bt gz" href="#">- 取消关注</a>
+          </div>
+        </div>
+     </div>
+	{{end}}
+   </div>
+</div>

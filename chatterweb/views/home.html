@@ -3,12 +3,18 @@
 {{define "meta"}}
      <title>话唠</title>
 {{end}}
+{{define "addCSS"}}
+<link type="text/css" charset="utf-8" rel="stylesheet" href="/static/css/app/home.css">
+<link type="text/css" charset="utf-8" rel="stylesheet" href="/static/css/app/msgCenter.css"/>
+<link type="text/css" charset="utf-8" rel="stylesheet" href="/static/css/app/hualao.css"/>
+{{end}}
 {{define "addJS"}}
-<script src="/static/js/msg-js.js"></script>
+<script src="/static/js/base/msg-js.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	 $(".menu-a").click(function() {	
+	 $(".menu-a").click(function() {
+	    $(".menu-a").removeClass("select-menu")	
 	    url = $(this).attr("data-href");
 		$.ajax({
 		    url:url,
@@ -17,17 +23,13 @@ $(document).ready(function() {
 			async : true,
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
 			success : function(data,textStatus, jqXHR) {
-				if (data.Success){
-					$("#wrapper").html(data.Data)
-				}else {
-					$("#wrapper").html("服务器出现异常，很抱歉给您带来不便！")
-				}
+				$("#wrapper").html(data)
 			},
 			error:function(XMLHttpRequest, textStatus, errorThrown) {
-				alert("与服务器连接失败"+XMLHttpRequest.responseText);
+				$("#wrapper").html("对不起，服务器繁忙，请稍微再试！");
 			}
-		
 		});
+		$(this).addClass("select-menu")
 	 })				   					   
 });
 </script>
@@ -40,11 +42,11 @@ $(document).ready(function() {
      <img src="mytouxiang.png" width="100%"/>
    </div>
    <div class="body-menu">
-      <a class="menu-a" data-href="消息">
+      <a class="menu-a" data-href="/home/msgCenter">
         <i class="ico msg-ico"></i>
         <span>消息中心</span>
       </a>
-      <a class="menu-a" data-href="话唠录">
+      <a class="menu-a" data-href="/hualao">
         <i class="ico hualao-ico"></i>
         <span>话唠录</span>
       </a>
