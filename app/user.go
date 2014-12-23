@@ -2,6 +2,7 @@ package app
 
 import (
 	log "code.google.com/p/log4go"
+	"fmt"
 	"github.com/sf100/chatter/db"
 	"strings"
 	"time"
@@ -28,18 +29,20 @@ type User struct {
 }
 
 func CheckUserByToken(token string) *User {
-
+	fmt.Println("---------------user-------------1")
 	conn := rs.getConn("token")
 	if conn == nil {
 		return nil
 	}
+
+	fmt.Println("---------------user-------------2")
 	defer conn.Close()
 
 	if err := conn.Send("EXISTS", token); err != nil {
 		log.Error(err)
+		fmt.Println("---------------user-------------3")
 		return nil
 	}
-
 	if err := conn.Flush(); err != nil {
 		log.Error(err)
 		return nil

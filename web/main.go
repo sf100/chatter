@@ -47,6 +47,7 @@ func main() {
 		log.Error("db-InitConfig() error(%v)", err)
 		return
 	}
+
 	// Set max routine
 	runtime.GOMAXPROCS(Conf.MaxProc)
 	// init log
@@ -60,6 +61,12 @@ func main() {
 		}
 		panic(err)
 	}
+
+	/*初始化数据库，和app的redis*/
+	db.InitDB()
+	defer db.CloseDB()
+	app.InitRedisStorage()
+
 	// start pprof http
 	perf.Init(Conf.PprofBind)
 	// start http listen.

@@ -32,18 +32,21 @@ func UserPush(w http.ResponseWriter, r *http.Request) {
 
 	//获取请求数据
 	r.ParseForm()
+	/*回调函数*/
+	tmp := r.FormValue("callbackparam")
+	callback = &tmp
 
 	// Token 校验
 	token := r.FormValue("baseRequest[token]")
 	user := CheckUserByToken(token)
-	if nil == user {
+
+	fmt.Println("9999999999999999999999")
+	if nil != user {
 		baseRes.Ret = AuthErr
 		baseRes.ErrMsg = "auth failure"
 		return
 	}
 
-	tmp := r.FormValue("callbackparam")
-	callback = &tmp
 	if err != nil {
 		baseRes.Ret = ParamErr
 		baseRes.ErrMsg = "msgType not is int"
@@ -93,6 +96,7 @@ func UserPush(w http.ResponseWriter, r *http.Request) {
 		glog.Error("msg convert byte error:[%s] ", err)
 		return
 	}
+	fmt.Println(keys)
 	for _, v := range keys {
 		push(v, msgBytes, expire)
 	}
