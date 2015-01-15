@@ -1,5 +1,5 @@
 <logging>
-  <filter enabled="false">
+  <filter enabled="true">
     <tag>stdout</tag>
     <type>console</type>
     <!-- level is (:?FINEST|FINE|DEBUG|TRACE|INFO|WARNING|ERROR) -->
@@ -12,15 +12,15 @@
     <property name="filename">/tmp/web_debug.log</property>
     <property name="format">[%D %T] [%L] [%S] %M</property>
     <property name="rotate">true</property> <!-- true enables log rotation, otherwise append -->
-    <property name="maxsize">0M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
-    <property name="maxlines">0K</property> <!-- \d+[KMG]? Suffixes are in terms of thousands -->
+    <property name="maxsize">100M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
+    <property name="maxlines">10K</property> <!-- \d+[KMG]? Suffixes are in terms of thousands -->
     <property name="daily">true</property> <!-- Automatically rotates when a log message is written after midnight -->
   </filter>
   <filter enabled="true">
     <tag>info_file</tag>
     <type>file</type>
     <level>INFO</level>
-    <property name="filename">/tmp/web_info.log</property>
+    <property name="filename">/data/chatter/web_info.log</property>
     <!--
        %T - Time (15:04:05 MST)
        %t - Time (15:04)
@@ -34,26 +34,26 @@
     -->
     <property name="format">[%D %T] [%L] [%S] %M</property>
     <property name="rotate">true</property> <!-- true enables log rotation, otherwise append -->
-    <property name="maxsize">0M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
-    <property name="maxlines">0K</property> <!-- \d+[KMG]? Suffixes are in terms of thousands -->
+    <property name="maxsize">100M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
+    <property name="maxlines">10K</property> <!-- \d+[KMG]? Suffixes are in terms of thousands -->
     <property name="daily">true</property> <!-- Automatically rotates when a log message is written after midnight -->
   </filter>
   <filter enabled="true">
     <tag>warn_file</tag>
     <type>file</type>
     <level>WARNING</level>
-    <property name="filename">/tmp/web_warn.log</property>
+    <property name="filename">/data/chatter/web_warn.log</property>
     <property name="format">[%D %T] [%L] [%S] %M</property>
     <property name="rotate">true</property> <!-- true enables log rotation, otherwise append -->
-    <property name="maxsize">0M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
-    <property name="maxlines">0K</property> <!-- \d+[KMG]? Suffixes are in terms of thousands -->
+    <property name="maxsize">10M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
+    <property name="maxlines">10K</property> <!-- \d+[KMG]? Suffixes are in terms of thousands -->
     <property name="daily">true</property> <!-- Automatically rotates when a log message is written after midnight -->
   </filter>
   <filter enabled="true">
     <tag>error_file</tag>
     <type>file</type>
     <level>ERROR</level>
-    <property name="filename">/tmp/web_error.log</property>
+    <property name="filename">/data/chatter/web_error.log</property>
     <property name="format">[%D %T] [%L] [%S] %M</property>
     <property name="rotate">true</property> <!-- true enables log rotation, otherwise append -->
     <property name="maxsize">0M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->

@@ -1,17 +1,16 @@
 package app
 
 import (
-	glog "code.google.com/p/log4go"
 	"encoding/json"
 	"fmt"
 	myrpc "github.com/sf100/chatter/rpc"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
 func UserPush(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("---------------qing qiu-------------------")
 	baseRes := baseResponse{OK, ""}
 	res := map[string]interface{}{"baseResponse": &baseRes}
 	var callback *string
@@ -38,10 +37,10 @@ func UserPush(w http.ResponseWriter, r *http.Request) {
 
 	// Token 校验
 	token := r.FormValue("baseRequest[token]")
+	fmt.Println("--->", token)
 	user := CheckUserByToken(token)
 
-	fmt.Println("9999999999999999999999")
-	if nil != user {
+	if nil == user {
 		baseRes.Ret = AuthErr
 		baseRes.ErrMsg = "auth failure"
 		return
@@ -62,6 +61,9 @@ func UserPush(w http.ResponseWriter, r *http.Request) {
 
 		msg["fromDisplayName"] = user.NickName
 		msg["content"] = r.FormValue("msg[content]")
+		msg["toUserName"] = r.FormValue("msg[toUserName]")
+		msg["msgType"] = r.FormValue("msg[msgType]")
+		msg["fromUserName"] = r.FormValue("msg[fromUserName]")
 		keys = append(keys, toUserName)
 
 	} else if strings.HasSuffix(toUserName, QUN_SUFFIX) {
@@ -93,7 +95,7 @@ func UserPush(w http.ResponseWriter, r *http.Request) {
 
 	msgBytes, err := json.Marshal(msg)
 	if err != nil {
-		glog.Error("msg convert byte error:[%s] ", err)
+		log.Fatal("msg convert byte error:[%s] ", err)
 		return
 	}
 	fmt.Println(keys)
@@ -109,14 +111,14 @@ func push(key string, msgBytes []byte, expire int) int {
 	node := myrpc.GetComet(key)
 	if node == nil || node.Rpc == nil {
 
-		glog.Error("Get comet node failed [key=%s]", key)
+		log.Fatal("Get comet node failed [key=%s]", key)
 		return NotFoundServer
 	}
 
 	client := node.Rpc.Get()
 	if client == nil {
 
-		glog.Error("Get comet node RPC client failed [key=%s]", key)
+		log.Fatal("Get comet node RPC client failed [key=%s]", key)
 		return NotFoundServer
 	}
 
@@ -124,11 +126,11 @@ func push(key string, msgBytes []byte, expire int) int {
 
 	ret := OK
 	if err := client.Call(myrpc.CometServicePushPrivate, pushArgs, &ret); err != nil {
-		glog.Error("client.Call(\"%s\", \"%v\", &ret) error(%v)", myrpc.CometServicePushPrivate, string(msgBytes), err)
+		log.Fatal("client.Call(\"%s\", \"%v\", &ret) error(%v)", myrpc.CometServicePushPrivate, string(msgBytes), err)
 		return InternalErr
 	}
 
-	glog.Info("Pushed a message to [key=%s]", key)
+	log.Println("Pushed a message to [key=%s]", key)
 
 	return ret
 }

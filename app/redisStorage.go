@@ -21,7 +21,6 @@ var rs *RedisStorage
 // initRedisStorage initialize the redis pool and consistency hash ring.
 func InitRedisStorage() {
 	log.Info("Connecting Redis....")
-
 	var (
 		err error
 		w   int
@@ -61,7 +60,6 @@ func InitRedisStorage() {
 				return conn, err
 			},
 		}
-
 		ring.AddNode(nw[0], w)
 	}
 
@@ -83,7 +81,6 @@ func (s *RedisStorage) getConn(key string) redis.Conn {
 		log.Warn("key: \"%s\" hit redis node: \"%s\" not in pool", key, node)
 		return nil
 	}
-
 	log.Debug("key: \"%s\" hit redis node: \"%s\"", key, node)
 
 	return p.Get()

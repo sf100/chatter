@@ -2,17 +2,19 @@ package app
 
 import (
 	log "code.google.com/p/log4go"
-	"fmt"
+	"encoding/json"
 	"github.com/sf100/chatter/db"
+	"io/ioutil"
+	"net/http"
 	"strings"
 	"time"
 )
 
 type User struct {
-	Id         string
+	Id         string `orm:"column(id);pk"`
 	Name       string
 	NickName   string
-	NamePy     string
+	Signature  string
 	Avatar     string
 	Status     int
 	Password   string
@@ -22,25 +24,21 @@ type User struct {
 	Mobile     string
 	Email      string
 	Occupation string
-	URL        string
+	Url        string
 	Created    time.Time
 	Updated    time.Time
-	QunId      string
 }
 
 func CheckUserByToken(token string) *User {
-	fmt.Println("---------------user-------------1")
 	conn := rs.getConn("token")
 	if conn == nil {
 		return nil
 	}
 
-	fmt.Println("---------------user-------------2")
 	defer conn.Close()
 
 	if err := conn.Send("EXISTS", token); err != nil {
 		log.Error(err)
-		fmt.Println("---------------user-------------3")
 		return nil
 	}
 	if err := conn.Flush(); err != nil {
@@ -84,15 +82,80 @@ func CheckUserByToken(token string) *User {
 	return ret
 }
 
-//更具user_id获取用户
-func getUserByUid(id string) *User {
-	row := db.MySQL.QueryRow("select * from user where id =?", id)
+func getUserByName(userName string) *User {
+	row := db.MySQL.QueryRow("select id ,name,nick_name,signature,avatar,status,password,sex,level,location,mobile,email,occupation,url from user where name =?", userName)
 	user := &User{}
-	if err := row.Scan(user.Id, user.Name, user.NickName, user.NamePy, user.Avatar, user.Status, user.Password, user.Sex,
-		user.Level, user.Location, user.Mobile, user.Email, user.Occupation, user.URL); err != nil {
-
-		log.Error(err)
+	if err := row.Scan(&user.Id, &user.Name, &user.NickName, &user.Signature, &user.Avatar, &user.Status, &user.Password, &user.Sex,
+		&user.Level, &user.Location, &user.Mobile, &user.Email, &user.Occupation, &user.Url); err != nil {
+		log.Info(err)
 		return nil
 	}
 	return user
+}
+
+//根据user_id获取用户
+func getUserByUid(uid string) *User {
+	row := db.MySQL.QueryRow("select id ,name,nick_name,signature,avatar,status,password,sex,level,location,mobile,email,occupation,url from user where id =?", uid)
+	user := &User{}
+	if err := row.Scan(&user.Id, &user.Name, &user.NickName, &user.Signature, &user.Avatar, &user.Status, &user.Password, &user.Sex,
+		&user.Level, &user.Location, &user.Mobile, &user.Email, &user.Occupation, &user.Url); err != nil {
+		log.Info(err)
+		return nil
+	}
+	return user
+}
+
+// 客户端设备登录.
+func Login(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "POST" {
+		http.Error(w, "Method Not Allowed", 405)
+		return
+	}
+
+	baseRes := baseResponse{OK, ""}
+	body := ""
+	res := map[string]interface{}{"baseResponse": &baseRes}
+	defer RetPWriteJSON(w, r, res, &body, time.Now())
+
+	bodyBytes, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		res["ret"] = ParamErr
+		log.Error("ioutil.ReadAll() failed (%s)", err.Error())
+		return
+	}
+	body = string(bodyBytes)
+
+	var args map[string]interface{}
+
+	if err := json.Unmarshal(bodyBytes, &args); err != nil {
+		baseRes.ErrMsg = err.Error()
+		baseRes.Ret = ParamErr
+		return
+	}
+
+	//TODO:备用
+	/*
+		baseReq := args["baseRequest"].(map[string]interface{})
+		uid := baseReq["uid"].(string)
+		deviceId := baseReq["deviceID"].(string)
+		deviceType := baseReq["deviceType"].(string)
+	*/
+	userName := args["userName"].(string)
+	password := args["password"].(string)
+	// TODO: 登录验证逻辑
+	user := getUserByName(userName)
+	if nil == user || user.Password != password {
+		baseRes.ErrMsg = "auth failed"
+		baseRes.Ret = AuthErr
+		return
+	}
+	token, err := genToken(user)
+	if err != nil {
+		baseRes.ErrMsg = err.Error()
+		baseRes.Ret = InternalErr
+		return
+	}
+	res["token"] = token
+	res["user"] = user
 }
