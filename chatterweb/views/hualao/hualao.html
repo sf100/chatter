@@ -1,3 +1,4 @@
+<a name="hualao" id="hualao" ></a>
 <script type="text/javascript">
 	    $(".hualao-menu-a").click(function() {
 		    url = $(this).attr("data-href");
@@ -31,24 +32,6 @@
       我的关注
    </div>
    <div id="contactList" class="contact-list-c">
-    {{range .Users}}
-     <div class="user-about">
-        <div class="user-avatar"></div>
-        <div class="user-info">
-          <label>
-		   {{if .Remark_name}}
-		     {{.Remark_name}} 
-		   {{else}} 
-		     {{.NickName}}
-		   {{end}}
-		  </label>
-          <div class="user-qm">{{.Signature}}</div>
-          <div  class="bt-box">
-             <a class="bt sendmsg" href="#">发送消息</a>
-             <a class="bt gz" href="#">- 取消关注</a>
-          </div>
-        </div>
-     </div>
-	{{end}}
+       {{template "hualao/userList.html" .}}
    </div>
 </div>

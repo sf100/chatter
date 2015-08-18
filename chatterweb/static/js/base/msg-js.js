@@ -50,23 +50,14 @@
         // Properties
         this.host = options.host;
         this.port = options.port;
-        
-        // 构建会话 id： {key}_{browser}_{version}_{rn}@{xx}  
-        var tmp = options.key;
+        this.key = options.key;
+		
         var browser = navigator.appCodeName;//navigator.appName;
         var b_version = navigator.appVersion;
         var version = parseFloat(b_version);
         var rn = Math.round(Math.random() * 999); //三位随机数
 
-        if (tmp.indexOf('@') == -1) {
-            tmp = tmp + "_" + browser + "-" + version + "-" + rn;
-        } else {
-            var start = tmp.substring(0, tmp.lastIndexOf('@'));
-            var end = tmp.substring(tmp.lastIndexOf('@'))
-            tmp = start + "_" + browser + "-" + version + "-" + rn + end;
-        }
         this.type = browser;
-        this.key = tmp;
 		this.originalKey = options.key;
         this.heartbeat = options.heartbeat || 60;
         this.mid = options.mid || getMid();
@@ -213,7 +204,7 @@
                                 that.onOfflineMessage(message);
                                 that.mid = message.mid;
 								//存储mid
-								setMid(that.mid)
+								setMid(that.mid);
                             }
                         }
                     }

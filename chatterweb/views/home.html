@@ -15,7 +15,16 @@ $(document).ready(function() {
 	
 	 $(".menu-a").click(function() {
 	    $(".menu-a").removeClass("select-menu")	
-	    url = $(this).attr("data-href");
+	    var url = $(this).attr("data-href");
+		var id = $(this).attr("data-id");
+		
+		/*消息中心特殊，因为与消息系统建立了链接所以必须始终加载着，以便接受消息。*/
+		if (id == "msg-center") { 
+			$("#msg-center").css("display","block");
+			$("#wrapperOther").html("");
+			return;
+		}
+		
 		$.ajax({
 		    url:url,
 			type:"POST",
@@ -23,13 +32,16 @@ $(document).ready(function() {
 			async : true,
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
 			success : function(data,textStatus, jqXHR) {
-				$("#wrapper").html(data)
+				
+			    $("#msg-center").css("display","none");
+			    $("#wrapperOther").html(data);
+				
 			},
 			error:function(XMLHttpRequest, textStatus, errorThrown) {
 				$("#wrapper").html("对不起，服务器繁忙，请稍微再试！");
 			}
 		});
-		$(this).addClass("select-menu")
+		$(this).addClass("select-menu");
 	 })				   					   
 });
 </script>
@@ -39,18 +51,18 @@ $(document).ready(function() {
 <div class="main-menu">
    <div class="res-avatar"></div>
    <div class="avatar">
-     <img src="mytouxiang.png" width="100%"/>
+     <img src="/static/images/mytouxiang.png" width="100%"/>
    </div>
    <div class="body-menu">
-      <a class="menu-a" data-href="/home/msgCenter">
+      <a class="menu-a" data-id="msg-center" data-href="/home/msgCenter">
         <i class="ico msg-ico"></i>
         <span>消息中心</span>
       </a>
-      <a class="menu-a" data-href="/hualao">
+      <a class="menu-a" data-id="hualao" data-href="/hualao">
         <i class="ico hualao-ico"></i>
         <span>话唠录</span>
       </a>
-      <a class="menu-a" data-href="技术唠">
+      <a class="menu-a" data-id="" data-href="技术唠">
         <i class="ico jishu-ico"></i>
         <span>技术唠</span>
       </a>
@@ -80,5 +92,7 @@ $(document).ready(function() {
    </div>
 </div>
 <div  id="wrapper" class="wrapper">
+  {{template "msgCenter/msgCenter.html" .}}
+  <div id="wrapperOther" style="width:100%;height:100%;"></div>
 </div>
 {{end}}

@@ -19,13 +19,9 @@ func (this *HuaLaoController) Post() {
 	this.TplNames = "hualao/hualao.html"
 	user := this.GetSession("user").(*models.User)
 	users := models.GetUserFriend(user.Id)
-	fmt.Println("-------------------")
 	fmt.Println(users)
-	fmt.Println("-------------------")
 	//默认打开用户好友列表
 	this.Data["friendLen"] = len(users)
-	num := models.GetUserQunNums(user.Id)
-	fmt.Println("---------------------", num)
 	this.Data["qunsLen"] = models.GetUserQunNums(user.Id)
 	this.Data["Users"] = users
 }

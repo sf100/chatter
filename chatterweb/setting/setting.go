@@ -10,7 +10,7 @@ import (
 func init() {
 	// 注册模型
 	orm.Debug = true
-	orm.RegisterModel(new(models.User), new(models.Qun))
+	orm.RegisterModel(new(models.User), new(models.Qun), new(models.HistoryMsg))
 	RegisterDB()
 	InitSession()
 	beego.InsertFilter("/home", beego.BeforeExec, models.IsUserLogin)

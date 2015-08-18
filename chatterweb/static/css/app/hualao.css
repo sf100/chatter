@@ -66,7 +66,7 @@
 	height:96px;
 	background-color:#FFF;
 	border:#ededed solid 1px;
-	border-radius:3px;
+	border-radius:2px;
 	padding:8px;
 	font-size:14px;
 	overflow:hidden;
@@ -119,6 +119,7 @@
 	width:90px;
 	text-align:center;
 	border-radius:11px;
+	cursor:pointer;
 	}
 .user-info .bt:hover{
 	background-color:#0066CC;

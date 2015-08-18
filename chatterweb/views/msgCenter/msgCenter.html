@@ -1,113 +1,256 @@
 <script type="text/javascript">
-var gg = function() {
-	 var channel = new GoPushCli({
+
+    var destroy = function() {
+		channel.destory();
+	}
+	
+	/*保存为能显示的消息，@userID为发送消息的用户ID*/
+	var saveMsg = function(userId , msgData){
+		var storage = window.localStorage;
+		if(window.localStorage){		
+		   var oldMsgData = storage.getItem(userId);
+		   if (oldMsgData != nill && oldMsgData != ""){
+			    msgData = oldMsgData+msgData;
+		   }
+		   storage.setItem(userId,msgData);
+		}
+	}
+	/*获取用户消息，@userID为发送消息的用户ID*/
+	var getMsg = function(userId) {
+		if(window.localStorage) {
+			
+			var msgData = window.localStorage.getItem(userId);
+			//获取后需清除消息
+			window.localStorage.removeItem(userId)
+			return msgData;
+			
+		}
+	}
+	/*新启消息通道*/
+	var channel = new GoPushCli({
         host: '192.168.1.122',
         port: 8090,
         key: '{{.User.Id}}@user',
         onOfflineMessage: function (data) {
-			addContent("[离线]来自["+decodeURIComponent(data.msg.fromDisplayName)+"]的消息："+decodeURIComponent(data.msg.content));
+			//addContent("[离线]来自["+decodeURIComponent(data.msg.fromDisplayName)+"]的消息："+decodeURIComponent(data.msg.content));
         },
         onOnlineMessage: function (data) {
+	     
 			var msg;
 			if (window.JSON && window.JSON.parse) {
                  msg= JSON.parse(decodeURIComponent(data.msg));
             }
             msg =  eval('(' + decodeURIComponent(data.msg) + ')');
-            addContent("[在线]来自["+decodeURIComponent(msg.fromDisplayName)+"]的消息："+decodeURIComponent(msg.content));
+            receive(msg);
         },
         onError: function (message) {
-            addContent(message);
+            alert(message);
         },
         onOpen: function (message) {
-            addContent('初始化完成');
+            //alert('初始化完成');
         },
         onClose: function (message) {
-            addContent('连接断开');
+           // alert('连接断开');
         }
     });
-}
+	channel.start();
+	
+	var receive = function(msg) {
+	   //消息体
+	   var receiveContent ='<div class="msg-msg-other"><div class="msg-tx left"></div><div class="jiantou-left"></div><div class="msg-content left other-c">'
+                +msg.content+'</div></div>';
+	   var fromUserName = msg.fromUserName.split("@")[0];
+	   var fromDisplayName = msg.fromDisplayName;
+	 
+	   savaHistoryMsg(msg)
+	   if ($("#msgJiluC").children("#"+fromUserName).length>0){//接受者存在于聊天记录中        
+			//判断当前聊天用户与收到信息用户的关系
+			if($("#msgLt").attr("data-curentId") == "") {//当前无聊天者
+				
+				$("#msgLt").attr("data-curentId",fromUserName);
+				$("#msgLt").attr("data-curentId")=fromUserName;
+			    $("#msg-msg").append(receiveContent);
+				
+			}else if($("#msgLt").attr("data-curentId")== fromUserName) {//当前聊天者为接受消息者
+				
+				$("#msg-msg").append(receiveContent);
+			
+			}else {//当前聊天者不是接受到消息者，消息需缓存下来
+				saveMsg(fromUserName,receiveContent)
+			}
+	   }else {//接受者第一次聊天
+		
+		    var msgUser ='<a  id="'+fromUserName+'" data-userName="'+userName+'" onclick ="selectCurentUser(\''+fromUserName+'\')" class="msg-jilu-user">'
+			             +'<div class="user-tx"></div>'+fromDisplayName+'</a>';
+			$("#msgJiluC").append(msgUser);
+			
+			//判断当前聊天用户与收到信息用户的关系
+			if($("#msgLt").attr("data-curentId") == "") {//无人聊天
+				
+				$("#msgLtH").html(fromDisplayName);
+				$("#msgLt").attr("data-curentId",fromUserName);
+				$("#msg-msg").append(receiveContent);
+			
+			}else {//有人聊天，消息需缓存下来
+				saveMsg(fromUserName,receiveContent)
+			}
+	   }
+	   
+	}
+	
+	/*保存消息到聊天记录中*/
+	var savaHistoryMsg = function(msg) {
+		
+		var historyMsg = {
+			"SourceId":msg.fromUserName,
+			"TargetId":"{{.User.Id}}",
+			"Content":msg.content,
+			"MsgType":msg.msgType,
+			"Status":1
+		}
+		console.log(historyMsg)
+		$.ajax({
+			url : "/home/historyMsg",
+			type : "POST",
+			data : historyMsg,
+			dataType : 'json',
+			async : true,
+			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+			success : function(data,textStatus, jqXHR) {
+				if (data.Success){
+					
+				}else {
+					alert("保存历史消息失败")
+				}
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("与服务器连接失败"+XMLHttpRequest.responseText);
+			}
+		});
+		
+	}
+	
+	/*发送消息*/
+	var sendMsg = function() {
+		var msgData = $("#sendMsg").val();
+		if (msgData == null && msgData == "") {
+			return
+		}
+		msgMe = '<div class="msg-msg-me"><div class="msg-tx right"></div><div class="jiantou-right"></div><div class="msg-content right">'
+              +msgData+'</div></div>';
+	    $("#msg-msg").append(msgMe);
+		
+		var toUserName = $("#msgLt").attr("data-curentId")+"@user";
+		var data ={
+			"baseRequest": {
+				"uid": "{{.User.Id}}",
+				"token": "{{.token}}"
+			},
+			"msg": {
+				"fromUserName": "{{.User.Id}}@user",
+				"toUserName": toUserName,
+				"msgType": 1,
+				"content": msgData,
+				"clientMsgId": 1407734409242
+			}
+		};
+	    console.log(data)
+		ajaxJsonp("http://192.168.1.122:8092/app/userPush",data,"sendMsgCallback")
+	}
+	
+	//消息回调函数
+	var sendMsgCallback = function(data){
+		if (data.baseResponse.ret==0){
+			$("#sendMsg").val("")
+		}else{
+			alert("发送消息失败:"+data.baseResponse.errMsg);
+		}
+	}
+	
+	var ajaxJsonp = function (url , data , callback){
+		$.ajax({
+            type : "get",
+            async:false,
+			data:data,
+            url : url,
+            dataType : "jsonp",
+            jsonp: "callbackparam",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+            jsonpCallback:callback,//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
+            success : function(json){
+               // alert(json);
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
+	}
+	
+	/*从消息记录中选择，聊天用户*/
+    var selectCurentUser = function(userId) {
+
+		if ($("#msgLt").attr("data-curentId") == userId) {
+			return;
+		}
+		
+		var msgData = getMsg(userId);
+		
+		$("#msgLtH").html($("#"+userId).attr("data-userName"));
+		$("#msgLt").attr("data-curentId",userId);
+		
+		$("#msg-msg").html("").append(msgData);
+		
+	}
+	
+	/*从话唠录中选择聊天用户*/
+	var toUserMsg = function( userId , userName ) {
+		$("#msg-center").css("display","block");
+		$("#wrapperOther").html("");
+		
+	    if ($("#msgJiluC").children("#"+userId).length > 0){//接受者存在于聊天记录中 
+   
+			if($("#msgLt").attr("data-curentId") != userId) {//不是当前聊天者
+				$("#msgLtH").html(userName);
+				$("#msg-msg").html("");
+			}
+	    }else {//接受者第一次聊天
+		
+		    var msgUser ='<a  id="'+userId+'" data-userName="'+userName+'"  onclick ="selectCurentUser(\''+userId+'\')" class="msg-jilu-user">'
+			             +'<div class="user-tx"></div>'+userName+'</a>';
+			$("#msgJiluC").append(msgUser);
+	   }
+	    $("#msgLtH").html(userName);
+		$("#msgLt").attr("data-curentId" , userId);
+	}
 </script>
-<div class="msg-center">
+<div class="msg-center" id="msg-center">
   <div class="msg-jilu">
     <div class="msg-jilu-h">
        消息中心
     </div>
-    <div class="msg-jilu-c">
-       <a  href="#" class="msg-jilu-user">
-         <div class="user-tx"></div>网名
-       </a>
+    <div id="msgJiluC" class="msg-jilu-c">
+        <a  id="'+userId+'" data-userName="'+userName+'"  onclick ="selectCurentUser(\''+userId+'\')" class="msg-jilu-user">
+		    <div class="user-tx"></div>userName			
+		</a>
     </div>
     <a class="load-all">加载全部</a>
   </div>
-  <div class="msg-lt">
-      <div class="msg-lt-h">
-       快了骑行军
+  <div  id="msgLt" class="msg-lt" data-curentId="">
+      <div id="msgLtH" class="msg-lt-h">
+      
       </div>
       <div class="msg-win">
-        <div class="msg-msg">
+        <div id = "msg-msg" class="msg-msg">
            <div class="msg-time">
               <span>09-10 14:00</span>
-           </div>
-           <div class="msg-msg-other">
-              <div class="msg-tx left"></div>
-              <div class="jiantou-left"></div>
-              <div class="msg-content left other-c">
-                消息内容消息内容消息内容
-              </div>
-           </div>
-           <div class="msg-msg-me">
-              <div class="msg-tx right"></div>
-              <div class="jiantou-right"></div>
-              <div class="msg-content right">
-                消息内容消息内容消息内容消息消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消消息内容消息内容消息内容消息内容消内容消息内容
-              </div>
-           </div>
-           <div class="msg-msg-other">
-              <div class="msg-tx left"></div>
-              <div class="jiantou-left"></div>
-              <div class="msg-content left other-c">
-                消息内容消息内容消息内容消息内容消息内容
-              </div>
-           </div>
-           <div class="msg-time">
-              <span> 09-10 14:00 </span>
-           </div>
-           <div class="msg-msg-me">
-              <div class="msg-tx right"></div>
-              <div class="jiantou-right"></div>
-              <div class="msg-content right">
-                消息内容消息内
-              </div>
-           </div>
-           <div class="msg-msg-me">
-              <div class="msg-tx right"></div>
-              <div class="jiantou-right"></div>
-              <div class="msg-content right">
-                消息内容消息内容消息内容消息内容消息内容
-              </div>
-           </div>
-           <div class="msg-msg-me">
-              <div class="msg-tx right"></div>
-              <div class="jiantou-right"></div>
-              <div class="msg-content right">
-                消息内容消息内容消息内容消息内容消息内容
-              </div>
-           </div>
-           <div class="msg-msg-me">
-              <div class="msg-tx right"></div>
-              <div class="jiantou-right"></div>
-              <div class="msg-content right">
-                消息内容消息内容消息内容消息内容消息内容
-              </div>
            </div>
         </div>
         <div class="msg-send">
             <i class="biaoqing-ico"></i>
             <i class="img-ico"></i>
             <div class="msg-send-parse">
-              <input type="text" name="sendMsg"/>
+              <input type="text" id="sendMsg"  name="sendMsg"/>
             </div>
-            <button class="send-button" id="submit" onclick="login()">
+            <button class="send-button" id="sendMsgBt" onclick="sendMsg()">
                发送
             </button>
         </div>
