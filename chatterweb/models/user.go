@@ -79,7 +79,6 @@ func Register(userName, password string) bool {
 		}
 		o.QueryTable("user")
 		id, err := o.Insert(user)
-		fmt.Println("1-->>", id)
 		if err != nil {
 			beego.Error(err)
 			if err := o.Rollback(); err != nil {

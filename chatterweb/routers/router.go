@@ -13,6 +13,7 @@ func init() {
 	beego.Router("/logout", &controllers.UserController{}, "get:Logout")
 	beego.Router("/home", &controllers.HomeController{})
 	beego.Router("/home/msgCenter", &controllers.MsgController{})
+	beego.Router("/home/historyMsg", &controllers.MsgController{}, "post:SavaHistory")
 	beego.Router("/hualao", &controllers.HuaLaoController{})
 	beego.Router("/hualao/friend", &controllers.HuaLaoController{}, "post:GetUserFriend")
 	beego.Router("/hualao/quns", &controllers.HuaLaoController{}, "post:GetUserQuns")

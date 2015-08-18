@@ -90,7 +90,7 @@
 	margin-top:10px;
 	background-color:#fff;
 	border:#EEE 1px solid;
-	border-radius: 5px;
+	border-radius: 2px;
 	}
 .msg-win .msg-msg{
 	width:100%;
@@ -131,7 +131,7 @@
 .msg-msg .msg-time span{
 	color:#FFF;
 	background-color:#CCC;
-	border-radius:3px;
+	border-radius:2px;
 	width:100px;
 	margin-left:auto;
 	margin-right:auto;
@@ -152,7 +152,7 @@
 .msg-msg .msg-content{
 	background-color:#a0d3fe;
 	min-height:50px;
-	border-radius: 3px;
+	border-radius: 2px;
 	padding:5px;
 	max-width:320px;
 	}
@@ -219,7 +219,7 @@
 	margin-top:10px;
 	background-color:#FFF;
 	border:#EEE 1px solid;
-	border-radius: 5px;
+	border-radius: 2px;
 	font-size:12px;
 	overflow:hidden;
 	}
