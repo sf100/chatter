@@ -30,11 +30,11 @@ import (
 )
 
 const (
-	savePrivateMsgSQL = "INSERT INTO private_msg(skey,mid,ttl,msg,ctime,mtime) VALUES(?,?,?,?,?,?)"
+	savePrivateMsgSQL = "INSERT INTO private_msg(tkey,fkey,mid,ttl,msg,ctime,mtime) VALUES(?,?,?,?,?,?,?)"
 	// TODO limit
-	getPrivateMsgSQL        = "SELECT mid, ttl, msg FROM private_msg WHERE skey=? AND mid>? ORDER BY mid"
+	getPrivateMsgSQL        = "SELECT mid, ttl, msg FROM private_msg WHERE tkey=? AND mid>? ORDER BY mid"
 	delExpiredPrivateMsgSQL = "DELETE FROM private_msg WHERE ttl<=?"
-	delPrivateMsgSQL        = "DELETE FROM private_msg WHERE skey=?"
+	delPrivateMsgSQL        = "DELETE FROM private_msg WHERE tkey=?"
 )
 
 var (
@@ -79,15 +79,15 @@ func NewMySQLStorage() *MySQLStorage {
 }
 
 // SavePrivate implements the Storage SavePrivate method.
-func (s *MySQLStorage) SavePrivate(key string, msg json.RawMessage, mid int64, expire uint) error {
+func (s *MySQLStorage) SavePrivate(tkey, fkey string, msg json.RawMessage, mid int64, expire uint) error {
 	db := s.getConn(key)
 	if db == nil {
 		return ErrNoMySQLConn
 	}
 	now := time.Now()
-	_, err := db.Exec(savePrivateMsgSQL, key, mid, now.Unix()+int64(expire), []byte(msg), now, now)
+	_, err := db.Exec(savePrivateMsgSQL, tkey, fkey, mid, now.Unix()+int64(expire), []byte(msg), now, now)
 	if err != nil {
-		log.Error("db.Exec(\"%s\",\"%s\",%d,%d,%d,\"%s\",now,now) failed (%v)", savePrivateMsgSQL, key, mid, expire, string(msg), err)
+		log.Error("db.Exec(\"%s\",\"%s\",%d,%d,%d,\"%s\",now,now) failed (%v)", savePrivateMsgSQL, tkey, mid, expire, string(msg), err)
 		return err
 	}
 	return nil

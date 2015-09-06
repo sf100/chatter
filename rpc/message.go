@@ -95,7 +95,8 @@ func (m *Message) OldBytes() ([]byte, error) {
 
 // Message SavePrivate args
 type MessageSavePrivateArgs struct {
-	Key    string          // subscriber key
+	Tkey   string          // subscriber key
+	Fkey   string          // fromUser
 	Msg    json.RawMessage // message content
 	MsgId  int64           // message id
 	Expire uint            // message expire second
