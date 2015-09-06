@@ -26,7 +26,6 @@ func InitDB() {
 	test := 0
 	if err := MySQL.QueryRow("SELECT 1").Scan(&test); err != nil {
 		glog.Error(err)
-
 		os.Exit(-1)
 	}
 

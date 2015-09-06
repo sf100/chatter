@@ -38,7 +38,7 @@ func UserPush(w http.ResponseWriter, r *http.Request) {
 
 	// Token 校验
 	token := r.FormValue("baseRequest[token]")
-	fmt.Println("--->", token)
+	fmt.Println("token--->", token)
 	user := CheckUserByToken(token)
 
 	if nil == user {
@@ -131,7 +131,7 @@ func push(key string, msgBytes []byte, expire int) int {
 		return InternalErr
 	}
 
-	log.Println("Pushed a message to [key=%s]", key)
+	log.Printf("Pushed a message to [key=%s] \n", key)
 
 	return ret
 }

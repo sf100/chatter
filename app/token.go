@@ -2,7 +2,7 @@ package app
 
 import (
 	log "code.google.com/p/log4go"
-	"github.com/EPICPaaS/go-uuid/uuid"
+	"github.com/sf100/go-uuid/uuid"
 	"time"
 )
 
