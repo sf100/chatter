@@ -17,6 +17,7 @@ func UserPush(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		// 返回结果格式化
 		resJsonStr := ""
+
 		if resJson, err := json.Marshal(res); err != nil {
 			baseRes.ErrMsg = err.Error()
 			baseRes.Ret = InternalErr

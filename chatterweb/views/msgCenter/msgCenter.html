@@ -41,6 +41,7 @@
                  msg= JSON.parse(decodeURIComponent(data.msg));
             }
             msg =  eval('(' + decodeURIComponent(data.msg) + ')');
+			alert(msg);
             receive(msg);
         },
         onError: function (message) {
@@ -50,19 +51,19 @@
             //alert('初始化完成');
         },
         onClose: function (message) {
-           // alert('连接断开');
+           //alert('连接断开');
         }
     });
 	channel.start();
 	
 	var receive = function(msg) {
+		console.log(msg);
 	   //消息体
 	   var receiveContent ='<div class="msg-msg-other"><div class="msg-tx left"></div><div class="jiantou-left"></div><div class="msg-content left other-c">'
                 +msg.content+'</div></div>';
 	   var fromUserName = msg.fromUserName.split("@")[0];
 	   var fromDisplayName = msg.fromDisplayName;
-	 
-	   savaHistoryMsg(msg)
+	
 	   if ($("#msgJiluC").children("#"+fromUserName).length>0){//接受者存在于聊天记录中        
 			//判断当前聊天用户与收到信息用户的关系
 			if($("#msgLt").attr("data-curentId") == "") {//当前无聊天者
@@ -80,7 +81,7 @@
 			}
 	   }else {//接受者第一次聊天
 		
-		    var msgUser ='<a  id="'+fromUserName+'" data-userName="'+userName+'" onclick ="selectCurentUser(\''+fromUserName+'\')" class="msg-jilu-user">'
+		    var msgUser ='<a  id="'+fromUserName+'" data-userName="'+fromUserName+'" onclick ="selectCurentUser(\''+fromUserName+'\')" class="msg-jilu-user">'
 			             +'<div class="user-tx"></div>'+fromDisplayName+'</a>';
 			$("#msgJiluC").append(msgUser);
 			
@@ -98,38 +99,6 @@
 	   
 	}
 	
-	/*保存消息到聊天记录中*/
-	var savaHistoryMsg = function(msg) {
-		
-		var historyMsg = {
-			"SourceId":msg.fromUserName,
-			"TargetId":"{{.User.Id}}",
-			"Content":msg.content,
-			"MsgType":msg.msgType,
-			"Status":1
-		}
-		console.log(historyMsg)
-		$.ajax({
-			url : "/home/historyMsg",
-			type : "POST",
-			data : historyMsg,
-			dataType : 'json',
-			async : true,
-			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-			success : function(data,textStatus, jqXHR) {
-				if (data.Success){
-					
-				}else {
-					alert("保存历史消息失败")
-				}
-			},
-			error:function(XMLHttpRequest, textStatus, errorThrown) {
-				alert("与服务器连接失败"+XMLHttpRequest.responseText);
-			}
-		});
-		
-	}
-	
 	/*发送消息*/
 	var sendMsg = function() {
 		var msgData = $("#sendMsg").val();
@@ -141,6 +110,7 @@
 	    $("#msg-msg").append(msgMe);
 		
 		var toUserName = $("#msgLt").attr("data-curentId")+"@user";
+		console.log(toUserName);
 		var data ={
 			"baseRequest": {
 				"uid": "{{.User.Id}}",
@@ -228,7 +198,7 @@
        消息中心
     </div>
     <div id="msgJiluC" class="msg-jilu-c">
-        <a  id="'+userId+'" data-userName="'+userName+'"  onclick ="selectCurentUser(\''+userId+'\')" class="msg-jilu-user">
+        <a  id="22" data-userName="22"  onclick ="selectCurentUser('222')" class="msg-jilu-user">
 		    <div class="user-tx"></div>userName			
 		</a>
     </div>

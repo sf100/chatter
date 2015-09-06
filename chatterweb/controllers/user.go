@@ -33,6 +33,7 @@ func (this *UserController) Post() {
 	if user != nil && user.Password == pwd {
 		//登陆消息系统
 		token := loginMsg(uname, pwd)
+		fmt.Println(token)
 		if len(token) > 0 {
 			ret.Data = user
 			this.SetSession("token", token)

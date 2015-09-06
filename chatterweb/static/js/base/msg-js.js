@@ -59,7 +59,7 @@
 
         this.type = browser;
 		this.originalKey = options.key;
-        this.heartbeat = options.heartbeat || 60;
+        this.heartbeat = options.heartbeat || 30;
         this.mid = options.mid || getMid();
         this.pmid = options.pmid || 0;
         this.proto = window.WebSocket ? 1 : 2;
@@ -165,7 +165,7 @@
                 that.destory();
                 that.onError('心跳超时');
             }, (that.heartbeat + 15) * 1000);
-            // console.log('Debug: 请求心跳');
+            //console.log('Debug: 请求心跳');
         }, that.heartbeat * 1000);
     };
 
