@@ -100,7 +100,7 @@ func NewRedisStorage() *RedisStorage {
 }
 
 // SavePrivate implements the Storage SavePrivate method.
-func (s *RedisStorage) SavePrivate(key string, msg json.RawMessage, mid int64, expire uint) error {
+func (s *RedisStorage) SavePrivate(key, fkey string, msg json.RawMessage, mid int64, expire uint) error {
 	rm := &RedisPrivateMessage{Msg: msg, Expire: int64(expire) + time.Now().Unix()}
 	m, err := json.Marshal(rm)
 	if err != nil {

@@ -40,7 +40,7 @@ type Storage interface {
 	// GetPrivate get private msgs.
 	GetPrivate(key string, mid int64) ([]*rpc.Message, error)
 	// SavePrivate Save single private msg.
-	SavePrivate(key string, msg json.RawMessage, mid int64, expire uint) error
+	SavePrivate(key, fKey string, msg json.RawMessage, mid int64, expire uint) error
 	// Save private msgs return failed keys.
 	SavePrivates(keys []string, msg json.RawMessage, mid int64, expire uint) ([]string, error)
 	// DelPrivate delete private msgs.

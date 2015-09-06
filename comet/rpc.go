@@ -113,7 +113,7 @@ func (c *CometRPC) PushPrivate(args *myrpc.CometPushPrivateArgs, ret *int) error
 	}
 	// use the channel push message
 	m := &myrpc.Message{Msg: args.Msg}
-	if err = ch.PushMsg(args.Key, m, args.Expire); err != nil {
+	if err = ch.PushMsg(args.Key, args.Fkey, m, args.Expire); err != nil {
 		log.Error("ch.PushMsg(\"%s\", \"%v\") error(%v)", args.Key, m, err)
 		return err
 	}

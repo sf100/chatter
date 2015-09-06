@@ -128,7 +128,7 @@ func (c *SeqChannel) writeMsg(key string, m *myrpc.Message) (err error) {
 }
 
 // PushMsg implements the Channel PushMsg method.
-func (c *SeqChannel) PushMsg(tkey, fkey sFtring, m *myrpc.Message, expire uint) (err error) {
+func (c *SeqChannel) PushMsg(key, fkey string, m *myrpc.Message, expire uint) (err error) {
 	client := myrpc.MessageRPC.Get()
 	if client == nil {
 		return ErrMessageRPC

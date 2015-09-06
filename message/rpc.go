@@ -58,8 +58,8 @@ func (r *MessageRPC) SavePrivate(m *myrpc.MessageSavePrivateArgs, ret *int) erro
 	if m == nil || m.Msg == nil || m.MsgId < 0 {
 		return myrpc.ErrParam
 	}
-	if err := UseStorage.SavePrivate(m.Tkey, m.Fkey, m.Msg, m.MsgId, m.Expire); err != nil {
-		log.Error("UseStorage.SavePrivate(\"%s\", \"%s\", %d, %d) error(%v)", m.Tkey, string(m.Msg), m.MsgId, m.Expire, err)
+	if err := UseStorage.SavePrivate(m.Key, m.Fkey, m.Msg, m.MsgId, m.Expire); err != nil {
+		log.Error("UseStorage.SavePrivate(\"%s\", \"%s\", %d, %d) error(%v)", m.Key, string(m.Msg), m.MsgId, m.Expire, err)
 		return err
 	}
 	log.Debug("UseStorage.SavePrivate(\"%s\", \"%s\", %d, %d) ok", m.Key, string(m.Msg), m.MsgId, m.Expire)

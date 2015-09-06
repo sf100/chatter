@@ -95,7 +95,7 @@ func (m *Message) OldBytes() ([]byte, error) {
 
 // Message SavePrivate args
 type MessageSavePrivateArgs struct {
-	Tkey   string          // subscriber key
+	Key    string          // subscriber key
 	Fkey   string          // fromUser
 	Msg    json.RawMessage // message content
 	MsgId  int64           // message id

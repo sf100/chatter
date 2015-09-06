@@ -67,6 +67,7 @@ type CometNodeEvent struct {
 // Channel Push Private Message Args
 type CometPushPrivateArgs struct {
 	Key    string          // subscriber key
+	Fkey   string          // fromUserName
 	Msg    json.RawMessage // message content
 	Expire uint            // message expire second
 }

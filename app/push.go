@@ -101,13 +101,13 @@ func UserPush(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(keys)
 	for _, v := range keys {
-		push(v, msgBytes, expire)
+		push(v, fromUserName, msgBytes, expire)
 	}
 
 }
 
 // 按 key 推送.
-func push(key string, msgBytes []byte, expire int) int {
+func push(key, fkey string, msgBytes []byte, expire int) int {
 
 	node := myrpc.GetComet(key)
 	if node == nil || node.Rpc == nil {
@@ -123,7 +123,7 @@ func push(key string, msgBytes []byte, expire int) int {
 		return NotFoundServer
 	}
 
-	pushArgs := &myrpc.CometPushPrivateArgs{Msg: json.RawMessage(msgBytes), Expire: uint(expire), Key: key}
+	pushArgs := &myrpc.CometPushPrivateArgs{Msg: json.RawMessage(msgBytes), Expire: uint(expire), Key: key, Fkey: fkey}
 
 	ret := OK
 	if err := client.Call(myrpc.CometServicePushPrivate, pushArgs, &ret); err != nil {

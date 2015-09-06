@@ -40,7 +40,7 @@ type Channel interface {
 	// WriteMsg push a message to the subscriber.
 	WriteMsg(key string, m *myrpc.Message) error
 	// PushMsg push a message to the subscriber.
-	PushMsg(key string, m *myrpc.Message, expire uint) error
+	PushMsg(key, fkey string, m *myrpc.Message, expire uint) error
 	// Add a token for one subscriber
 	// The request token not equal the subscriber token will return errors.
 	AddToken(key, token string) error
